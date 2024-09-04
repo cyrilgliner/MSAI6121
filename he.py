@@ -30,6 +30,18 @@ def histogram_equalization_color(image_path):
 
 
 if __name__ == '__main__':
-    result = histogram_equalization_color('images/sample01.jpg')
-    result.show()
-    result.save('images/sample01-eq.jpg')
+    images = [
+        {'src': 'images/sample01.jpg', 'dst': 'images/sample01-eq.jpg'},
+        {'src': 'images/sample02.jpeg', 'dst': 'images/sample02-eq.jpeg'},
+        {'src': 'images/sample03.jpeg', 'dst': 'images/sample03-eq.jpeg'},
+        {'src': 'images/sample04.jpeg', 'dst': 'images/sample04-eq.jpeg'},
+        {'src': 'images/sample05.jpeg', 'dst': 'images/sample05-eq.jpeg'},
+        {'src': 'images/sample06.jpg', 'dst': 'images/sample06-eq.jpg'},
+        {'src': 'images/sample07.jpg', 'dst': 'images/sample07-eq.jpg'},
+        {'src': 'images/sample08.jpg', 'dst': 'images/sample08-eq.jpg'},
+    ]
+    for image in images:
+        Image.open(image['src']).show()
+        result = histogram_equalization_color(image['src'])
+        result.show()
+        result.save(image['dst'])
