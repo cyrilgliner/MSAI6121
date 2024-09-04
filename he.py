@@ -3,27 +3,19 @@ import cv2
 from PIL import Image
 
 def histogram_equalization_color(image_path):
-    # Step 1: Load the image
     img = Image.open(image_path)
     img = np.asarray(img)
 
-    # Step 2: Convert the image from RGB to YUV color space
     img_yuv = cv2.cvtColor(img, cv2.COLOR_RGB2YUV)
 
-    # Step 3: Apply histogram equalization to the Y channel (luminance)
-    y_channel = img_yuv[:, :, 0]  # Extract the Y channel
-    y_hist, bins = np.histogram(y_channel.flatten(), 256, [0, 256])
-    y_cdf = y_hist.cumsum()  # Compute the CDF
-    y_cdf_normalized = (y_cdf - y_cdf.min()) * 255 / (y_cdf.max() - y_cdf.min())  # Normalize
-    y_cdf_normalized = y_cdf_normalized.astype('uint8')  # Ensure the CDF is in byte range
+    ch_y = img_yuv[:, :, 0]
+    histogram_ch_y, _ = np.histogram(ch_y.flatten(), 256, [0, 256])
+    cdf_ch_y = histogram_ch_y.cumsum()
+    cdf_ch_y_norm = (cdf_ch_y - cdf_ch_y.min()) * 255 / (cdf_ch_y.max() - cdf_ch_y.min())
 
-    # Step 4: Apply the equalization on the Y channel
-    img_yuv[:, :, 0] = y_cdf_normalized[y_channel]
+    img_yuv[:, :, 0] = cdf_ch_y_norm[ch_y]
 
-    # Step 5: Convert the image back to RGB color space
     img_equalized = cv2.cvtColor(img_yuv, cv2.COLOR_YUV2RGB)
-    
-    # Convert the result back to an image object
     img_equalized = Image.fromarray(img_equalized)
 
     return img_equalized
