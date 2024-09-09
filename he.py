@@ -70,12 +70,6 @@ if __name__ == '__main__':
         shutil.copy(image['src'], modified_src)
         result.save(modified_dst)
 
-        result = histogram_equalization_color(image['src'], cv2.COLOR_RGB2HSV, cv2.COLOR_HSV2RGB , 2)
-        modified_src = image['src'].replace('images/', 'images/HSV/')
-        modified_dst = image['dst'].replace('images/', 'images/HSV/')
-        shutil.copy(image['src'], modified_src)
-        result.save(modified_dst)
-
         result = histogram_equalization_color(image['src'], cv2.COLOR_RGB2LAB, cv2.COLOR_LAB2RGB , 0)
         modified_src = image['src'].replace('images/', 'images/LAB/')
         modified_dst = image['dst'].replace('images/', 'images/LAB/')
