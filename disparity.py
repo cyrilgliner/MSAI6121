@@ -14,11 +14,19 @@ def generate_disparity_map(left_image_path, right_image_path, block_size=5, max_
     height, width = img_left.shape
     disparity_map = np.zeros((height, width), dtype=np.float32)
 
+    # ....
+    # ....
+    # ....
+    # ....
+    #
+    # 
     for y in range(block_size // 2, height - block_size // 2):
         for x in range(block_size // 2, width - block_size // 2):
             best_offset = 0
             min_ssd = float('inf')
 
+            # iterate through the offset pixels in img_right to find the one with the smallest difference
+            # we are using SSD (smallest squared difference)
             for offset in range(max_disparity):
                 x_offset = x - offset
                 if x_offset - block_size // 2 < 0:
@@ -34,14 +42,15 @@ def generate_disparity_map(left_image_path, right_image_path, block_size=5, max_
 
             disparity_map[y, x] = best_offset
 
+    # normalize the disparity map to 0-255 for display purposes
     disparity_map = (disparity_map / max_disparity) * 255
     disparity_map = disparity_map.astype(np.uint8)
 
-    plt.imshow(disparity_map, cmap='gray')
+    plt.imshow(disparity_map)
     plt.title('Disparity Map')
     plt.axis('off')
     plt.show()
 
 if __name__ == '__main__':
-    generate_disparity_map('corridorl.jpg', 'corridorr.jpg')
-    generate_disparity_map('triclopsi2l.jpg', 'triclopsi2r.jpg')
+    generate_disparity_map('corridorl.jpg', 'corridorr.jpg', 15, 16)
+    # generate_disparity_map('triclopsi2l.jpg', 'triclopsi2r.jpg')
